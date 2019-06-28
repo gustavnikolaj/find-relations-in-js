@@ -59,7 +59,7 @@ describe("find-relations-in-js", () => {
     );
   });
 
-  it.skip("should work with a named import", () => {
+  it("should work with a named import", () => {
     expect(
       findRelationsInJs(`
         import { Component } from 'react';
@@ -69,7 +69,7 @@ describe("find-relations-in-js", () => {
     );
   });
 
-  it.skip("should work with named imports", () => {
+  it("should work with named imports", () => {
     expect(
       findRelationsInJs(`
         import { Component, Fragment } from 'react';
