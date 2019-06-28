@@ -23,6 +23,7 @@
     "unexpected": "^11.6.1"
   },
   "dependencies": {
-    "acorn": "^6.1.1"
+    "acorn": "^6.1.1",
+    "acorn-jsx": "^5.0.1"
   }
 }

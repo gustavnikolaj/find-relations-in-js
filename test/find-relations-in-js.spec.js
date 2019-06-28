@@ -45,4 +45,17 @@ describe("find-relations-in-js", () => {
       ["./bar.js"]
     );
   });
+
+  it("should work with jsx", () => {
+    expect(
+      findRelationsInJs(`
+        import React from 'react';
+        export default function Hello() {
+          return <h1>Hello, world!</h1>;
+        }
+      `),
+      "to equal",
+      ["react"]
+    );
+  });
 });
