@@ -1,5 +1,7 @@
 # find relations in javascript
 
+[![Build Status](https://travis-ci.com/gustavnikolaj/find-relations-in-js.svg?branch=master)](https://travis-ci.com/gustavnikolaj/find-relations-in-js)
+
 ```
 $ npm install find-relations-in-js
 ```
