@@ -58,4 +58,34 @@ describe("find-relations-in-js", () => {
       ["react"]
     );
   });
+
+  it.skip("should work with a named import", () => {
+    expect(
+      findRelationsInJs(`
+        import { Component } from 'react';
+      `),
+      "to equal",
+      ["react"]
+    );
+  });
+
+  it.skip("should work with named imports", () => {
+    expect(
+      findRelationsInJs(`
+        import { Component, Fragment } from 'react';
+      `),
+      "to equal",
+      ["react"]
+    );
+  });
+
+  it.skip("should work with mixed named and default imports", () => {
+    expect(
+      findRelationsInJs(`
+        import React, { Component } from 'react';
+      `),
+      "to equal",
+      ["react"]
+    );
+  });
 });
