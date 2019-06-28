@@ -79,7 +79,7 @@ describe("find-relations-in-js", () => {
     );
   });
 
-  it.skip("should work with mixed named and default imports", () => {
+  it("should work with mixed named and default imports", () => {
     expect(
       findRelationsInJs(`
         import React, { Component } from 'react';
