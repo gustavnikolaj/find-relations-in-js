@@ -1,0 +1,27 @@
+{
+  "name": "@gustavnikolaj/find-relations-in-js",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/find-relations-in-js.js",
+  "scripts": {
+    "coverage": "jest --coverage",
+    "lint": "eslint . && prettier --check '**/*.js'",
+    "postpublish": "git push origin --all && git push origin --tags",
+    "postversion": "npm publish",
+    "prepublish": "npm run build",
+    "preversion": "npm test",
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-pretty-standard": "^2.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "mocha": "^6.1.4",
+    "prettier": "^1.18.2",
+    "unexpected": "^11.6.1"
+  },
+  "dependencies": {}
+}
