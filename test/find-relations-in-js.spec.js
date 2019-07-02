@@ -88,4 +88,43 @@ describe("find-relations-in-js", () => {
       ["react"]
     );
   });
+
+  it("should work with multi line imports", () => {
+    expect(
+      findRelationsInJs(`
+        import React, { Component }
+        from 'react';
+        import
+        PropTypes
+        from
+        'prop-types';
+      `),
+      "to equal",
+      ["react", "prop-types"]
+    );
+  });
+
+  it("should not fail when requiring a variable", () => {
+    expect(
+      findRelationsInJs(`
+        const foo = 'react';
+        const bar = require(foo);
+      `),
+      "to equal",
+      []
+    );
+  });
+
+  it("should should work with multiple quotes", () => {
+    expect(
+      findRelationsInJs(`
+        const React = require('react');
+        const PropTypes = require("prop-types");
+        import { pick } from "lodash";
+        import { omit } from 'lodash';
+      `),
+      "to equal",
+      ["react", "prop-types", "lodash", "lodash"]
+    );
+  });
 });
