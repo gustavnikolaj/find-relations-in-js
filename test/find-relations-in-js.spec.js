@@ -247,4 +247,48 @@ describe("find-relations-in-js", () => {
       ]
     );
   });
+
+  it("should not crash on an unterminated require statement", () => {
+    expect(
+      findRelationsInJs(`
+        require('fdsf'
+      `),
+      "to equal",
+      [
+        {
+          error: "Incomplete require statement",
+          type: "require",
+          source: "require(",
+          offset: { start: 9, end: 17 }
+        }
+      ]
+    );
+  });
+
+  it("should ignore a variable named require", () => {
+    expect(
+      findRelationsInJs(`
+        var require = 'foo'
+      `),
+      "to equal",
+      []
+    );
+  });
+
+  it("should not crash on dynamic import", () => {
+    expect(
+      findRelationsInJs(`
+        import('fdsf');
+      `),
+      "to equal",
+      [
+        {
+          error: "Incomprehensible import",
+          type: "import",
+          source: "import",
+          offset: { start: 9, end: 15 }
+        }
+      ]
+    );
+  });
 });
