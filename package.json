@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/find-relations-in-js.js",
   "scripts": {
-    "coverage": "jest --coverage",
+    "coverage": "nyc mocha",
     "lint": "eslint . && prettier --check '**/*.js'",
     "postpublish": "git push origin --all && git push origin --tags",
     "postversion": "npm publish",
@@ -19,11 +19,20 @@
     "eslint-config-pretty-standard": "^2.0.1",
     "eslint-plugin-import": "^2.18.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "unexpected": "^11.6.1"
   },
   "dependencies": {
     "acorn": "^6.1.1",
     "acorn-jsx": "^5.0.1"
+  },
+  "nyc": {
+    "cache": true,
+    "reporter": [
+      "html",
+      "lcov",
+      "text"
+    ]
   }
 }
