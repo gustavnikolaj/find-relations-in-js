@@ -22,7 +22,14 @@ describe("find-relations-in-js", () => {
         import foo from './bar.js';
       `),
       "to equal",
-      ["./bar.js"]
+      [
+        {
+          type: "import",
+          value: "./bar.js",
+          source: "import foo from './bar.js'",
+          offset: { start: 9, end: 35 }
+        }
+      ]
     );
   });
 
@@ -32,7 +39,14 @@ describe("find-relations-in-js", () => {
         import './foo.js';
       `),
       "to equal",
-      ["./foo.js"]
+      [
+        {
+          type: "import",
+          value: "./foo.js",
+          source: "import './foo.js'",
+          offset: { start: 9, end: 26 }
+        }
+      ]
     );
   });
 
@@ -42,7 +56,14 @@ describe("find-relations-in-js", () => {
         const foo = require('./bar.js');
       `),
       "to equal",
-      ["./bar.js"]
+      [
+        {
+          type: "require",
+          value: "./bar.js",
+          source: "require('./bar.js')",
+          offset: { start: 21, end: 40 }
+        }
+      ]
     );
   });
 
@@ -55,7 +76,14 @@ describe("find-relations-in-js", () => {
         }
       `),
       "to equal",
-      ["react"]
+      [
+        {
+          type: "import",
+          value: "react",
+          source: "import React from 'react'",
+          offset: { start: 9, end: 34 }
+        }
+      ]
     );
   });
 
@@ -65,7 +93,14 @@ describe("find-relations-in-js", () => {
         import { Component } from 'react';
       `),
       "to equal",
-      ["react"]
+      [
+        {
+          type: "import",
+          value: "react",
+          source: "import { Component } from 'react'",
+          offset: { start: 9, end: 42 }
+        }
+      ]
     );
   });
 
@@ -75,7 +110,14 @@ describe("find-relations-in-js", () => {
         import { Component, Fragment } from 'react';
       `),
       "to equal",
-      ["react"]
+      [
+        {
+          type: "import",
+          value: "react",
+          source: "import { Component, Fragment } from 'react'",
+          offset: { start: 9, end: 52 }
+        }
+      ]
     );
   });
 
@@ -85,7 +127,14 @@ describe("find-relations-in-js", () => {
         import React, { Component } from 'react';
       `),
       "to equal",
-      ["react"]
+      [
+        {
+          type: "import",
+          value: "react",
+          source: "import React, { Component } from 'react'",
+          offset: { start: 9, end: 49 }
+        }
+      ]
     );
   });
 
@@ -100,7 +149,21 @@ describe("find-relations-in-js", () => {
         'prop-types';
       `),
       "to equal",
-      ["react", "prop-types"]
+      [
+        {
+          type: "import",
+          value: "react",
+          source: "import React, { Component }\n        from 'react'",
+          offset: { start: 9, end: 57 }
+        },
+        {
+          type: "import",
+          value: "prop-types",
+          source:
+            "import\n        PropTypes\n        from\n        'prop-types'",
+          offset: { start: 67, end: 125 }
+        }
+      ]
     );
   });
 
@@ -111,7 +174,14 @@ describe("find-relations-in-js", () => {
         const bar = require(foo);
       `),
       "to equal",
-      []
+      [
+        {
+          error: "Non literal require.",
+          type: "require",
+          source: "require(foo)",
+          offset: { start: 50, end: 62 }
+        }
+      ]
     );
   });
 
@@ -124,7 +194,101 @@ describe("find-relations-in-js", () => {
         import { omit } from 'lodash';
       `),
       "to equal",
-      ["react", "prop-types", "lodash", "lodash"]
+      [
+        {
+          type: "require",
+          value: "react",
+          source: "require('react')",
+          offset: { start: 23, end: 39 }
+        },
+        {
+          type: "require",
+          value: "prop-types",
+          source: `require("prop-types")`,
+          offset: { start: 67, end: 88 }
+        },
+        {
+          type: "import",
+          value: "lodash",
+          source: `import { pick } from "lodash"`,
+          offset: { start: 98, end: 127 }
+        },
+        {
+          type: "import",
+          value: "lodash",
+          source: "import { omit } from 'lodash'",
+          offset: { start: 137, end: 166 }
+        }
+      ]
+    );
+  });
+
+  it("should return a list of imported files", () => {
+    expect(
+      findRelationsInJs(`
+        import foo from './someFile'
+        import './another-file';
+        export default function () {};
+      `),
+      "to equal",
+      [
+        {
+          type: "import",
+          value: "./someFile",
+          source: "import foo from './someFile'",
+          offset: { start: 9, end: 37 }
+        },
+        {
+          type: "import",
+          value: "./another-file",
+          source: "import './another-file'",
+          offset: { start: 46, end: 69 }
+        }
+      ]
+    );
+  });
+
+  it("should not crash on an unterminated require statement", () => {
+    expect(
+      findRelationsInJs(`
+        require('fdsf'
+      `),
+      "to equal",
+      [
+        {
+          error: "Incomplete require statement",
+          type: "require",
+          source: "require(",
+          offset: { start: 9, end: 17 }
+        }
+      ]
+    );
+  });
+
+  it("should ignore a variable named require", () => {
+    expect(
+      findRelationsInJs(`
+        var require = 'foo'
+      `),
+      "to equal",
+      []
+    );
+  });
+
+  it("should not crash on dynamic import", () => {
+    expect(
+      findRelationsInJs(`
+        import('fdsf');
+      `),
+      "to equal",
+      [
+        {
+          error: "Incomprehensible import",
+          type: "import",
+          source: "import",
+          offset: { start: 9, end: 15 }
+        }
+      ]
     );
   });
 });
