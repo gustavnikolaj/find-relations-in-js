@@ -1,7 +1,7 @@
 # find relations in javascript
 
 [![npm version](https://badge.fury.io/js/%40gustavnikolaj%2Ffind-relations-in-js.svg)](https://www.npmjs.com/package/@gustavnikolaj/find-relations-in-js)
-![CI Build status](https://github.com/gustavnikolaj/find-relations-in-js/workflows/ci/badge.svg)
+![CI Build status](https://github.com/gustavnikolaj/find-relations-in-js/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/gustavnikolaj/find-relations-in-js/badge.svg?branch=master)](https://coveralls.io/github/gustavnikolaj/find-relations-in-js?branch=master)
 
 ```
