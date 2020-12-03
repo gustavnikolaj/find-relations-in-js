@@ -1,6 +1,6 @@
 {
   "name": "@gustavnikolaj/find-relations-in-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "lib/find-relations-in-js.js",
   "files": [
