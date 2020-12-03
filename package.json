@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "",
   "main": "lib/find-relations-in-js.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "coverage": "nyc mocha",
     "lint": "eslint . && prettier --check '**/*.js'",
